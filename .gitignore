@@ -1,5 +1,5 @@
 *.class
-
+# this is to filter the binaries from getting comitted in repo 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
