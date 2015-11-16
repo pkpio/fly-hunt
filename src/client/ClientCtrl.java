@@ -2,8 +2,8 @@ package client;
 
 import java.rmi.RemoteException;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
+import client.Listeners.IFlyPositionUpdate;
+import client.Listeners.IPlayerPointsUpdate;
 import common.IGameClient;
 import common.IGameServer;
 
