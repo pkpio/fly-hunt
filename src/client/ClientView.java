@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
  * 
  * @author praveen
  */
-public class ClientView {
+public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlayerPointsUpdate{
 	ClientApp mApp;
 	ClientCtrl mController;
 
@@ -34,13 +34,24 @@ public class ClientView {
 		// 3. -TODO- login
 		mController.login("");
 
-		// 4. -TODO- Register some callbacks for Fly position updated with
-		// ClientController. Note : Callback interface not written
+		// 4. Subscribe for Fly position & score updates
+		mController.setFlyPositionUpdateListener(this);
+		mController.setPlayerPointsUpdateListener(this);
 		
 		// 5. Run the game. Look for more functions in Client controller
 		// Note : View doesn't have access to server stubs and doesn't maintain any
 		// game state info except those required for UI display
 
+	}
+	
+	@Override
+	public void onFlyPositionUpdate(int posX, int posY){
+		//-TODO-
+	}
+	
+	@Override
+	public void onPlayerPointsUpdate(String[] playerNames, int[] scores){
+		// -TODO-
 	}
 
 }

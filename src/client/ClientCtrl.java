@@ -2,6 +2,8 @@ package client;
 
 import java.rmi.RemoteException;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 import common.IGameClient;
 import common.IGameServer;
 
@@ -17,6 +19,10 @@ import common.IGameServer;
 public class ClientCtrl implements IGameClient {
 	IGameServer mServer;
 	String mPlayerName;
+	
+	// Subscriptions
+	IFlyPositionUpdate mFlyPositionListener;
+	IPlayerPointsUpdate mPointsUpdateListener;
 
 	/**
 	 * Creates an instance of the Client controller. This implements IGameClient
@@ -35,14 +41,14 @@ public class ClientCtrl implements IGameClient {
 	 * current user or someone else. The call back should behave identically in
 	 * both cases
 	 * 
-	 * @param playerName
-	 *            Name of the player who hunted the last fly
+	 * @param playerNames
+	 *            String array containting names of the players
 	 * @param newPoints
-	 *            New points of the player who hunted the last fly
+	 *            int array containting scores of the players
 	 * @throws RemoteException
 	 */
 	@Override
-	public void recieveFlyHunted(String playerName, int newPoints) throws RemoteException {
+	public void recieveFlyHunted(String[] playerNames, int[] newPoints) throws RemoteException {
 		// TODO Auto-generated method stub
 	}
 
@@ -80,6 +86,24 @@ public class ClientCtrl implements IGameClient {
 	 */
 	public void huntFly() throws RemoteException {
 		mServer.huntFly(mPlayerName);
+	}
+
+	/**
+	 * Subscribe for updates to Fly's position
+	 * 
+	 * @param posListener
+	 */
+	public void setFlyPositionUpdateListener(IFlyPositionUpdate posListener) {
+		this.mFlyPositionListener = posListener;
+	}
+
+	/**
+	 * Subscribe for updates to scores
+	 * 
+	 * @param pointsListener
+	 */
+	public void setPlayerPointsUpdateListener(IPlayerPointsUpdate pointsListener) {
+		this.mPointsUpdateListener = pointsListener;
 	}
 
 }
