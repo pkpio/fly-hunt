@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
