@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,10 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	private JLabel playerNameLabel;
 	private JButton connectButton;
 	private JTextField playerNameTextField;
+	private JPanel headerPanel;
+	private JPanel scorePanel;
+	private JPanel scoreHeader;
+	Dimension screenSize ;
 	/**
 	 * Creates an instance of the Client view.
 	 * 
@@ -58,7 +63,8 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 
 	private void initGUI() throws RemoteException {
 		gameFrame = new JFrame("Fly Hunt");
-		gameFrame.setSize(Constant.CANVAS_WIDTH, Constant.CANVAS_WIDTH);
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		gameFrame.setBounds( 0,0,(int) (long)screenSize.getWidth()-250, (int) (long)screenSize.getHeight());
 		int xCoordinate, yCoordinate;
 		xCoordinate = (int) gameFrame.getSize().getWidth() / 2;
 		yCoordinate = (int) gameFrame.getSize().getHeight() / 2;
@@ -106,6 +112,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		gameFrame.getContentPane().setLayout(groupLayout);
 		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gameFrame.setVisible(true);
+
 	}
 
 	protected void startGame() {
@@ -116,27 +123,21 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		playAreaPanel = new JPanel();
 		playAreaPanel.setBackground(Color.WHITE);
 		playerListPanel = new JPanel();
-		playerListPanel.setBackground(Color.WHITE);
+		setComplexPanel();// new JPanel();
+
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
 				groupLayout.createSequentialGroup().addContainerGap()
-						.addComponent(playAreaPanel, GroupLayout.PREFERRED_SIZE, 1108, GroupLayout.PREFERRED_SIZE)
+						.addComponent(playAreaPanel, GroupLayout.PREFERRED_SIZE, (int) (long)screenSize.getWidth()-250, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(playerListPanel, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
+						.addComponent(playerListPanel, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap()));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(playerListPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 683,
+								.addComponent(playerListPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, (int) (long)screenSize.getHeight() ,
 										Short.MAX_VALUE)
-						.addComponent(playAreaPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE))
+						.addComponent(playAreaPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, (int) (long)screenSize.getHeight(), Short.MAX_VALUE))
 				.addContainerGap()));
-		playersListTextArea = new JTextArea();
-		playersListTextArea.setEditable(false);
-		playersListTextArea.setLineWrap(true);
-		playersListTextArea.setRows(37);
-		playersListTextArea.setWrapStyleWord(true);
-		playersListTextArea.setSize(200, 600);
-		playerListPanel.add(playersListTextArea);
 
 		flyImage = new JLabel("");
 		flyImage.addMouseMotionListener(new MouseMotionAdapter() {
@@ -198,11 +199,96 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		mController.startGame();
 	}
 
+	private void setComplexPanel() {
+		headerPanel = new javax.swing.JPanel();
+		welcomeText = new javax.swing.JLabel();
+		scoreHeader = new javax.swing.JPanel();
+		playerNameHeaderLabel = new javax.swing.JLabel();
+		playerScoreHeaderLabel = new javax.swing.JLabel();
+		scorePanel = new javax.swing.JPanel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		playersListTextArea = new javax.swing.JTextArea();
+		welcomeText.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+		welcomeText.setText("Welcome " + mController.mPlayerName);
+
+		playerNameHeaderLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+		playerNameHeaderLabel.setText("Player name");
+
+		playerScoreHeaderLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+		playerScoreHeaderLabel.setText("score");
+
+		javax.swing.GroupLayout scoreHeaderLayout = new javax.swing.GroupLayout(scoreHeader);
+		scoreHeader.setLayout(scoreHeaderLayout);
+		scoreHeaderLayout
+				.setHorizontalGroup(scoreHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(scoreHeaderLayout.createSequentialGroup().addContainerGap()
+								.addComponent(playerNameHeaderLabel).addGap(91, 91, 91)
+								.addComponent(playerScoreHeaderLabel).addContainerGap(187, Short.MAX_VALUE)));
+		scoreHeaderLayout.setVerticalGroup(
+				scoreHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+						javax.swing.GroupLayout.Alignment.TRAILING,
+						scoreHeaderLayout.createSequentialGroup().addGap(0, 31, Short.MAX_VALUE)
+								.addGroup(scoreHeaderLayout
+										.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(playerNameHeaderLabel).addComponent(playerScoreHeaderLabel))));
+
+		javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
+		headerPanel.setLayout(headerPanelLayout);
+		headerPanelLayout
+				.setHorizontalGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(headerPanelLayout.createSequentialGroup().addGap(70, 70, 70).addComponent(welcomeText)
+								.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+						headerPanelLayout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE).addComponent(
+								scoreHeader, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)));
+		headerPanelLayout
+				.setVerticalGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(headerPanelLayout.createSequentialGroup().addGap(31, 31, 31).addComponent(welcomeText)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(scoreHeader, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)));
+
+		javax.swing.GroupLayout scorePanelLayout = new javax.swing.GroupLayout(scorePanel);
+		scorePanel.setLayout(scorePanelLayout);
+		scorePanelLayout.setHorizontalGroup(scorePanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
+		scorePanelLayout.setVerticalGroup(scorePanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 182, Short.MAX_VALUE));
+
+		playersListTextArea.setColumns(20);
+		playersListTextArea.setRows(5);
+		jScrollPane1.setViewportView(playersListTextArea);
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(playerListPanel);
+		playerListPanel.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(headerPanel,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
+								.addComponent(jScrollPane1))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(scorePanel,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addContainerGap()
+						.addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(scorePanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(jScrollPane1))));
+	}
+
 	@Override
 	public void onPlayerPointsUpdate(String[] playerNames, int[] scores) {
 		String gameScore = "";
 		for (int i = 0; i < playerNames.length; i++) {
-			gameScore += playerNames[i] + "\t: " + scores[i] + "\n";
+			gameScore += playerNames[i] + "\t\t " + scores[i] + "\n";
 		}
 		playersListTextArea.setText(gameScore);
 	}
@@ -215,4 +301,8 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		gameFrame.revalidate();
 	}
 
+	private javax.swing.JLabel playerNameHeaderLabel;
+	private javax.swing.JLabel playerScoreHeaderLabel;
+	private javax.swing.JLabel welcomeText;
+	private javax.swing.JScrollPane jScrollPane1;
 }
