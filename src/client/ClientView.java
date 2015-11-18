@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -265,6 +266,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		playersListTextArea.setLineWrap(true);
 		playersListTextArea.setRows(37);
 		playersListTextArea.setWrapStyleWord(true);
+		playersListTextArea.setFont(new java.awt.Font("Lucida Grande", Font.PLAIN, 13));
 		jScrollPane1.setViewportView(playersListTextArea);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(playerListPanel);
@@ -296,7 +298,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	public void onPlayerPointsUpdate(String[] playerNames, int[] scores) {
 		String gameScore = "";
 		for (int i = 0; i < playerNames.length; i++) {
-			gameScore += playerNames[i] + "\t\t " + scores[i] + "\n";
+			gameScore += playerNames[i] + "\t " + scores[i] + "\n";
 		}
 		playersListTextArea.setText(gameScore);
 	}
