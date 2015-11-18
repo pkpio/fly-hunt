@@ -95,7 +95,7 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 *            Player name. Will be persistent inside the controller.
 	 * @throws RemoteException
 	 */
-	public void logOut() throws RemoteException {
+	public void logout() throws RemoteException {
 		mServer.logout(this.mPlayerName);
 	}
 
