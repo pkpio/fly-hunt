@@ -1,13 +1,19 @@
 <project>
 
-	<!-- This is only an idea for your script, you can build your own! -->
 	<description>
 		TK1 - Programmieraufgabe 1
 	</description>
+	
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="res" location="res" />
+	
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+	
 	<target name="init" depends="clean">
 		<tstamp />
 		<mkdir dir="${build}" />
@@ -17,15 +23,12 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="clean">
-		<delete dir="${build}" />
-		<delete dir="${dist}" />
-	</target>
+	
 	<target name="compile" depends="init">
 		<javac srcdir="${src}" destdir="${build}" />
 	</target>
+	
 	<target name="jar" depends="compile">
-
 		<jar destfile="${dist}/client.jar" basedir="${build}" includes="client/**,common/**,res/**">
 			<manifest>
 				<attribute name="Main-Class" value="client.ClientApp" />
@@ -37,11 +40,25 @@
 			</manifest>
 		</jar>
 	</target>
+	
 	<target name="run" depends="jar">
 		<parallel>
 			<java jar="${dist}/server.jar" fork="true" failonerror="true" />
-			<java jar="${dist}/client.jar" fork="true" failonerror="false" />
-			<java jar="${dist}/client.jar" fork="true" failonerror="false" />
+			
+			<!-- Clients waitfor server before starting -->
+			<sequential>
+				<waitfor maxwait="3" maxwaitunit="minute" checkevery="500">
+					<socket server="localhost" port="5236"/>
+				</waitfor>
+				<java jar="${dist}/client.jar" fork="true" failonerror="false" />
+			</sequential>
+			<sequential>
+				<waitfor maxwait="3" maxwaitunit="minute" checkevery="500">
+					<socket server="localhost" port="5236"/>
+				</waitfor>
+				<java jar="${dist}/client.jar" fork="true" failonerror="false" />
+			</sequential>
 		</parallel>
 	</target>
+	
 </project>
