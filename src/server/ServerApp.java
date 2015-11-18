@@ -1,5 +1,12 @@
 package server;
 
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+import common.Constant;
+
 /**
  * This is the entry point for server application.
  * 
@@ -11,5 +18,12 @@ package server;
  */
 
 public class ServerApp {
-
+	
+	public static void main(String[] args) throws RemoteException, AlreadyBoundException{
+		ServerCtrl serverCtrl = new ServerCtrl();
+		Registry registry = LocateRegistry.createRegistry(Constant.RMI_PORT);
+		registry.bind(Constant.RMI_ID, serverCtrl	);
+		System.out.println("server started!");
+	}
+	
 }

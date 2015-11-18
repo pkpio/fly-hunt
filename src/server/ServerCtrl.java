@@ -1,6 +1,7 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import common.IGameClient;
 import common.IGameServer;
@@ -11,10 +12,15 @@ import common.IGameServer;
  * 
  * @author praveen
  */
-public class ServerCtrl implements IGameServer{
+public class ServerCtrl extends UnicastRemoteObject implements IGameServer{
+
+	protected ServerCtrl() throws RemoteException {
+		super();
+	}
 
 	@Override
 	public void login(String playerName, IGameClient client) throws RemoteException {
+		client.recieveFlyPosition(22, 23);
 		// TODO Auto-generated method stub
 	}
 

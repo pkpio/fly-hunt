@@ -1,7 +1,11 @@
 package client;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
+import common.Constant;
 import common.IGameServer;
 
 /**
@@ -18,21 +22,16 @@ import common.IGameServer;
  */
 public class ClientApp {
 
-	public ClientApp() {
-	}
-
-	public static void main(String[] args) throws RemoteException{
-		// Init app object
-		ClientApp clientApp = new ClientApp();
-
-		// Get server control object from RMI registry
-		IGameServer server = null; // -TODO-
+	public static void main(String[] args) throws RemoteException, NotBoundException {
+		// Get server control object from registry
+		Registry registry = LocateRegistry.getRegistry("localhost", Constant.RMI_PORT);
+		IGameServer server = (IGameServer) registry.lookup(Constant.RMI_ID);
 
 		// Initiate the client controller
 		ClientCtrl clientCtrl = new ClientCtrl(server);
 
 		// Initiate the view - GUI, of the client and the game starts, NOW!
-		new ClientView(clientApp, clientCtrl);
+		new ClientView(clientCtrl);
 	}
 
 }

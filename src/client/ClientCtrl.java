@@ -1,6 +1,7 @@
 package client;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import client.Listeners.IFlyPositionUpdate;
 import client.Listeners.IPlayerPointsUpdate;
@@ -16,10 +17,10 @@ import common.IGameServer;
  * 
  * @author praveen
  */
-public class ClientCtrl implements IGameClient {
+public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	IGameServer mServer;
 	String mPlayerName;
-	
+
 	// Subscriptions
 	IFlyPositionUpdate mFlyPositionListener;
 	IPlayerPointsUpdate mPointsUpdateListener;
@@ -32,7 +33,8 @@ public class ClientCtrl implements IGameClient {
 	 *            An instance of the IGameServer object for RPCs between client
 	 *            and server
 	 */
-	public ClientCtrl(IGameServer server) {
+	protected ClientCtrl(IGameServer server) throws RemoteException{
+		super();
 		this.mServer = server;
 	}
 
@@ -64,6 +66,7 @@ public class ClientCtrl implements IGameClient {
 	 * @throws RemoteException
 	 */
 	public void recieveFlyPosition(int x, int y) throws RemoteException {
+		System.out.println("X : " + x + " Y : " + y);
 		// TODO Auto-generated method stub
 	}
 

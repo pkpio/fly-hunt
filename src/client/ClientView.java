@@ -29,7 +29,6 @@ import javax.swing.SwingConstants;
  * @author praveen
  */
 public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlayerPointsUpdate {
-	ClientApp mApp;
 	ClientCtrl mController;
 	private JFrame gameFrame;
 	private JTextArea playersListTextArea;
@@ -49,8 +48,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	 * @param controller
 	 *            A reference to the client controller
 	 */
-	public ClientView(ClientApp app, ClientCtrl controller) throws RemoteException {
-		this.mApp = app;
+	public ClientView(ClientCtrl controller) throws RemoteException {
 		this.mController = controller;
 		initGUI();
 	}
@@ -202,7 +200,6 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		flyImage.setLocation(posX, posY);
 		flyImage.setVisible(true);
 		gameFrame.revalidate();
-
 	}
 
 }
