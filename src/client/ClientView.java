@@ -149,7 +149,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 				}
 			}
 		});
-		flyImage.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage("Fly.jpg")));
+		flyImage.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage("res/fly.jpg")));
 		playAreaPanel.add(flyImage);
 		gameFrame.getContentPane().add(playAreaPanel);
 		gameFrame.getContentPane().setLayout(groupLayout);

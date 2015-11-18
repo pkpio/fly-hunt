@@ -16,6 +16,8 @@ import common.IGameServer;
  * @author praveen
  */
 public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
+	private static final long serialVersionUID = 3982440795885854423L;
+	
 	IGameServer mServer;
 	String mPlayerName;
 	int mFlyPosX;
@@ -44,9 +46,9 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 * both cases
 	 * 
 	 * @param playerNames
-	 *            String array containting names of the players
+	 *            String array containing names of the players
 	 * @param newPoints
-	 *            int array containting scores of the players
+	 *            int array containing scores of the players
 	 * @throws RemoteException
 	 */
 	@Override

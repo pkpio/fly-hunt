@@ -15,6 +15,8 @@ import common.IGameServer;
  * @author praveen
  */
 public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
+	private static final long serialVersionUID = 1328935693412813075L;
+	
 	// Fly's state info
 	int mFlyPosX;
 	int mFlyPosY;
