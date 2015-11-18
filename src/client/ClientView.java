@@ -24,6 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
+import common.Constant;
+
 /**
  * The client GUI logic appears here
  * 
@@ -41,8 +43,6 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	private JLabel playerNameLabel;
 	private JButton connectButton;
 	private JTextField playerNameTextField;
-	private WindowAdapter windowAdapter;
-
 	/**
 	 * Creates an instance of the Client view.
 	 * 
@@ -57,9 +57,8 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	}
 
 	private void initGUI() throws RemoteException {
-		// 1. -TODO- Init gui here
 		gameFrame = new JFrame("Fly Hunt");
-		gameFrame.setSize(607, 447);
+		gameFrame.setSize(Constant.CANVAS_WIDTH, Constant.CANVAS_WIDTH);
 		int xCoordinate, yCoordinate;
 		xCoordinate = (int) gameFrame.getSize().getWidth() / 2;
 		yCoordinate = (int) gameFrame.getSize().getHeight() / 2;
@@ -173,7 +172,6 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 					try {
 						mController.logout();
 					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					gameFrame.setVisible(false);

@@ -13,7 +13,7 @@ public class Constant {
 	/**
 	 * Maximum height of the canvas where the game can be played
 	 */
-	public static final int CANVAS_HEIGHT = 600;
+	public static final int CANVAS_HEIGHT = 400;
 
 	// Offsets to avoid fly positioning outside canvas
 	/**
