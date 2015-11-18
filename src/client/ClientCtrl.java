@@ -69,7 +69,7 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 * @throws RemoteException
 	 */
 	public void recieveFlyPosition(int x, int y) throws RemoteException {
-		System.out.println("X : " + x + " Y : " + y);
+		System.out.println("New fly poisitions. X : " + x + " Y : " + y);
 		mFlyPosX = x;
 		mFlyPosY = y;
 		if (mFlyPositionListener != null)

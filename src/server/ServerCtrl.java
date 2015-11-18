@@ -3,7 +3,9 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
+import common.Constant;
 import common.IGameClient;
 import common.IGameServer;
 
@@ -16,7 +18,7 @@ import common.IGameServer;
  */
 public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 	private static final long serialVersionUID = 1328935693412813075L;
-	
+
 	// Fly's state info
 	int mFlyPosX;
 	int mFlyPosY;
@@ -36,6 +38,7 @@ public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 	public void login(String playerName, IGameClient client) throws RemoteException {
 		System.out.println("Player login : " + playerName);
 		mClients.put(playerName, client);
+		mClientScores.put(playerName, 0);
 
 		// Notify new client about the current positions of the fly
 		client.recieveFlyPosition(mFlyPosX, mFlyPosY);
@@ -69,16 +72,12 @@ public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 	 * @throws RemoteException
 	 */
 	void updateFlyPosition() throws RemoteException {
-		// Initialize a fly position for starters
-		if (mClients == null || mClients.size() == 0) {
-			mFlyPosX = 120;
-			mFlyPosY = 120;
-			return;
-		}
-
 		// Generate new coordinates for Fly
-		mFlyPosX = 230;
-		mFlyPosY = 230;
+		mFlyPosX = randInt(Constant.OFFSET_X, Constant.CANVAS_WIDTH - Constant.OFFSET_X);
+		mFlyPosY = randInt(Constant.OFFSET_Y, Constant.CANVAS_HEIGHT - Constant.OFFSET_Y);
+
+		if (mClients == null || mClients.size() == 0)
+			return;
 
 		// Send the position to all clients
 		for (IGameClient client : mClients.values())
@@ -107,6 +106,17 @@ public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 		// Send the scores to all clients
 		for (IGameClient client : mClients.values())
 			client.recieveFlyHunted(playerNames, scores);
+	}
+
+	/**
+	 * Generate a random number in the range [min, max]
+	 * 
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	int randInt(int min, int max) {
+		return ThreadLocalRandom.current().nextInt((max - min) + 1) + min;
 	}
 
 }

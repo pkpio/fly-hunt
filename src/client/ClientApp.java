@@ -27,10 +27,8 @@ public class ClientApp {
 		Registry registry = LocateRegistry.getRegistry("localhost", Constant.RMI_PORT);
 		IGameServer server = (IGameServer) registry.lookup(Constant.RMI_ID);
 
-		// Initiate the client controller
+		// Initiate the client controller & view
 		ClientCtrl clientCtrl = new ClientCtrl(server);
-
-		// Initiate the view - GUI, of the client and the game starts, NOW!
 		new ClientView(clientCtrl);
 	}
 
