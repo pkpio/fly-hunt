@@ -20,10 +20,11 @@ import common.Constant;
 public class ServerApp {
 	
 	public static void main(String[] args) throws RemoteException, AlreadyBoundException{
+		// Bind the server control object at the RMI registry
 		ServerCtrl serverCtrl = new ServerCtrl();
 		Registry registry = LocateRegistry.createRegistry(Constant.RMI_PORT);
-		registry.bind(Constant.RMI_ID, serverCtrl	);
-		System.out.println("server started!");
+		registry.bind(Constant.RMI_ID, serverCtrl);
+		System.out.println("Server started!");
 	}
 	
 }
