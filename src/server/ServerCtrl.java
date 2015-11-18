@@ -32,6 +32,7 @@ public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 
 	@Override
 	public void login(String playerName, IGameClient client) throws RemoteException {
+		System.out.println("Player login : " + playerName);
 		mClients.put(playerName, client);
 
 		// Notify new client about the current positions of the fly
@@ -40,12 +41,15 @@ public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 
 	@Override
 	public void logout(String playerName) throws RemoteException {
+		System.out.println("Player logout : " + playerName);
 		mClients.remove(playerName);
 		mClientScores.remove(playerName);
 	}
 
 	@Override
 	public void huntFly(String playerName) throws RemoteException {
+		System.out.println("Fly hunted by : " + playerName);
+
 		// Update score of the client
 		mClientScores.put(playerName, mClientScores.get(playerName) + 1);
 
@@ -64,40 +68,39 @@ public class ServerCtrl extends UnicastRemoteObject implements IGameServer {
 	 */
 	void updateFlyPosition() throws RemoteException {
 		// Initialize a fly position for starters
-		if (mClients == null) {
-			mFlyPosX = 12;
-			mFlyPosY = 12;
+		if (mClients == null || mClients.size() == 0) {
+			mFlyPosX = 120;
+			mFlyPosY = 120;
 			return;
 		}
 
 		// Generate new coordinates for Fly
-		mFlyPosX = 23;
-		mFlyPosY = 23;
+		mFlyPosX = 230;
+		mFlyPosY = 230;
 
 		// Send the position to all clients
 		for (IGameClient client : mClients.values())
 			client.recieveFlyPosition(mFlyPosX, mFlyPosY);
 	}
-	
+
 	/**
 	 * Distributes new scores to all the clients
 	 * 
 	 * @throws RemoteException
 	 */
 	void updateScores() throws RemoteException {
-		if(mClientScores == null)
+		if (mClientScores == null || mClientScores.size() == 0)
 			return;
-		
+
 		// Build scores array
 		String[] playerNames = new String[mClientScores.size()];
 		int[] scores = new int[mClientScores.size()];
 		int pos = 0;
-		for (String playerName : mClientScores.keySet()){
+		for (String playerName : mClientScores.keySet()) {
 			playerNames[pos] = playerName;
 			scores[pos] = mClientScores.get(playerName);
 			pos++;
 		}
-		
 
 		// Send the scores to all clients
 		for (IGameClient client : mClients.values())

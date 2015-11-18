@@ -119,6 +119,7 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 * this call.
 	 */
 	public void startGame() {
+		System.out.println("Game started on client");
 		if (mFlyPositionListener != null)
 			mFlyPositionListener.onFlyPositionUpdate(mFlyPosX, mFlyPosY);
 	}
