@@ -51,7 +51,8 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 */
 	@Override
 	public void recieveFlyHunted(String[] playerNames, int[] newPoints) throws RemoteException {
-		// TODO Auto-generated method stub
+		if(mPointsUpdateListener != null)
+			mPointsUpdateListener.onPlayerPointsUpdate(playerNames, newPoints);
 	}
 
 	@Override
@@ -67,7 +68,8 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 */
 	public void recieveFlyPosition(int x, int y) throws RemoteException {
 		System.out.println("X : " + x + " Y : " + y);
-		// TODO Auto-generated method stub
+		if(mFlyPositionListener != null)
+			mFlyPositionListener.onFlyPositionUpdate(x, y);
 	}
 
 	/**
