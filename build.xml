@@ -37,7 +37,7 @@
 			</manifest>
 		</jar>
 	</target>
-	<target name="run">
+	<target name="run" depends="jar">
 		<parallel>
 			<java jar="${dist}/server.jar" fork="true" failonerror="true" />
 			<java jar="${dist}/client.jar" fork="true" failonerror="false" />
