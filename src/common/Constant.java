@@ -9,11 +9,11 @@ public class Constant {
 	/**
 	 * Maximum width of the canvas where the game can be played
 	 */
-	public static final int CANVAS_WIDTH = 600;
+	public static final int CANVAS_WIDTH = 800;
 	/**
 	 * Maximum height of the canvas where the game can be played
 	 */
-	public static final int CANVAS_HEIGHT = 400;
+	public static final int CANVAS_HEIGHT = 600;
 
 	// Offsets to avoid fly positioning outside canvas
 	/**
@@ -23,6 +23,6 @@ public class Constant {
 	/**
 	 * Fly position min offset in y-directions
 	 */
-	public static final int OFFSET_Y = 60;
+	public static final int OFFSET_Y = 100;
 
 }

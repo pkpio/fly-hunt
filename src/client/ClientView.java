@@ -39,6 +39,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	private JTextArea playersListTextArea;
 	private JLabel flyImage;
 	private JPanel playAreaPanel;
+	private JPanel loginPanel;
 	private JPanel playerListPanel;
 	private GroupLayout groupLayout;
 	private JLabel playerNameLabel;
@@ -47,7 +48,8 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	private JPanel headerPanel;
 	private JPanel scorePanel;
 	private JPanel scoreHeader;
-	Dimension screenSize ;
+	Dimension screenSize;
+
 	/**
 	 * Creates an instance of the Client view.
 	 * 
@@ -64,32 +66,32 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	private void initGUI() throws RemoteException {
 		gameFrame = new JFrame("Fly Hunt");
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		gameFrame.setBounds( 0,0,(int) (long)screenSize.getWidth()-250, (int) (long)screenSize.getHeight());
+		gameFrame.setBounds(0, 0, 1024, 768);
 		int xCoordinate, yCoordinate;
 		xCoordinate = (int) gameFrame.getSize().getWidth() / 2;
 		yCoordinate = (int) gameFrame.getSize().getHeight() / 2;
-		playAreaPanel = new JPanel();
+		loginPanel = new JPanel();
 		groupLayout = new GroupLayout(gameFrame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
 				groupLayout.createSequentialGroup().addContainerGap(577, Short.MAX_VALUE)
-						.addComponent(playAreaPanel, GroupLayout.PREFERRED_SIZE, 309, GroupLayout.PREFERRED_SIZE)
+						.addComponent(loginPanel, GroupLayout.PREFERRED_SIZE, 309, GroupLayout.PREFERRED_SIZE)
 						.addGap(468)));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
 				groupLayout.createSequentialGroup().addContainerGap(348, Short.MAX_VALUE)
-						.addComponent(playAreaPanel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+						.addComponent(loginPanel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 						.addGap(282)));
 
 		playerNameLabel = new JLabel("Enter your name");
 		playerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
 		playerNameLabel.setLocation(xCoordinate - 500, yCoordinate - 5);
-		playAreaPanel.add(playerNameLabel);
+		loginPanel.add(playerNameLabel);
 
 		playerNameTextField = new JTextField();
 		playerNameTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		playerNameTextField.setColumns(10);
 		playerNameTextField.setLocation(xCoordinate + (int) (playerNameLabel.getSize().getWidth()), yCoordinate - 5);
-		playAreaPanel.add(playerNameTextField);
+		loginPanel.add(playerNameTextField);
 
 		connectButton = new JButton("PLAY>>");
 		connectButton.addActionListener(new ActionListener() {
@@ -108,7 +110,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 
 		gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		playAreaPanel.add(connectButton);
+		loginPanel.add(connectButton);
 		gameFrame.getContentPane().setLayout(groupLayout);
 		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gameFrame.setVisible(true);
@@ -119,24 +121,26 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		playerNameLabel.setVisible(false);
 		playerNameTextField.setVisible(false);
 		connectButton.setVisible(false);
-		gameFrame.getContentPane().remove(playAreaPanel);
+		gameFrame.getContentPane().remove(loginPanel);
 		playAreaPanel = new JPanel();
 		playAreaPanel.setBackground(Color.WHITE);
 		playerListPanel = new JPanel();
 		setComplexPanel();// new JPanel();
 
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.CENTER).addGroup(Alignment.LEADING,
 				groupLayout.createSequentialGroup().addContainerGap()
-						.addComponent(playAreaPanel, GroupLayout.PREFERRED_SIZE, (int) (long)screenSize.getWidth()-250, GroupLayout.PREFERRED_SIZE)
+						.addComponent(playAreaPanel, GroupLayout.PREFERRED_SIZE, Constant.CANVAS_WIDTH,
+								GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(playerListPanel, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+						.addComponent(playerListPanel, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(playerListPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, (int) (long)screenSize.getHeight() ,
-										Short.MAX_VALUE)
-						.addComponent(playAreaPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, (int) (long)screenSize.getHeight(), Short.MAX_VALUE))
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.CENTER).addGroup(groupLayout
+				.createSequentialGroup().addContainerGap()
+				.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
+						.addComponent(playerListPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+								Constant.CANVAS_HEIGHT, Short.MAX_VALUE)
+						.addComponent(playAreaPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+								Constant.CANVAS_HEIGHT, Short.MAX_VALUE))
 				.addContainerGap()));
 
 		flyImage = new JLabel("");
@@ -159,7 +163,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		playAreaPanel.add(flyImage);
 		gameFrame.getContentPane().add(playAreaPanel);
 		gameFrame.getContentPane().setLayout(groupLayout);
-		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	//	gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gameFrame.setVisible(true);
 		gameFrame.addWindowListener(new WindowAdapter() {
 			// WINDOW_CLOSING event handler
@@ -187,7 +191,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 				super.windowClosed(e);
 			}
 		});
-
+		
 		gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		playAreaPanel.setLayout(null);
 
@@ -257,8 +261,10 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		scorePanelLayout.setVerticalGroup(scorePanelLayout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 182, Short.MAX_VALUE));
 
-		playersListTextArea.setColumns(20);
-		playersListTextArea.setRows(5);
+		playersListTextArea.setEditable(false);
+		playersListTextArea.setLineWrap(true);
+		playersListTextArea.setRows(37);
+		playersListTextArea.setWrapStyleWord(true);
 		jScrollPane1.setViewportView(playersListTextArea);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(playerListPanel);
@@ -282,6 +288,8 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 								.addComponent(scorePanel, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(jScrollPane1))));
+		gameFrame.pack();
+		gameFrame.setResizable(false);
 	}
 
 	@Override
@@ -296,6 +304,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	@Override
 	public void onFlyPositionUpdate(int posX, int posY) {
 		flyImage.setVisible(false);
+		System.out.println("Setting location"+posX);
 		flyImage.setLocation(posX, posY);
 		flyImage.setVisible(true);
 		gameFrame.revalidate();
