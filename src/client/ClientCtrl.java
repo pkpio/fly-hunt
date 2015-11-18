@@ -13,13 +13,13 @@ import common.IGameServer;
  * IGameClient and other methods that are required for view<-->controller
  * communication
  * 
- * -- TODO -- Add more methods as required for the view
- * 
  * @author praveen
  */
 public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	IGameServer mServer;
 	String mPlayerName;
+	int mFlyPosX;
+	int mFlyPosY;
 
 	// Subscriptions
 	IFlyPositionUpdate mFlyPositionListener;
@@ -33,7 +33,7 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 *            An instance of the IGameServer object for RPCs between client
 	 *            and server
 	 */
-	protected ClientCtrl(IGameServer server) throws RemoteException{
+	protected ClientCtrl(IGameServer server) throws RemoteException {
 		super();
 		this.mServer = server;
 	}
@@ -51,7 +51,7 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 */
 	@Override
 	public void recieveFlyHunted(String[] playerNames, int[] newPoints) throws RemoteException {
-		if(mPointsUpdateListener != null)
+		if (mPointsUpdateListener != null)
 			mPointsUpdateListener.onPlayerPointsUpdate(playerNames, newPoints);
 	}
 
@@ -68,7 +68,9 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 */
 	public void recieveFlyPosition(int x, int y) throws RemoteException {
 		System.out.println("X : " + x + " Y : " + y);
-		if(mFlyPositionListener != null)
+		mFlyPosX = x;
+		mFlyPosY = y;
+		if (mFlyPositionListener != null)
 			mFlyPositionListener.onFlyPositionUpdate(x, y);
 	}
 
@@ -109,6 +111,16 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	 */
 	public void setPlayerPointsUpdateListener(IPlayerPointsUpdate pointsListener) {
 		this.mPointsUpdateListener = pointsListener;
+	}
+
+	/**
+	 * Notifies controller that a new game starts. This would also trigger a UI
+	 * refresh for fly position so, initiate the UI & event listeners before
+	 * this call.
+	 */
+	public void startGame() {
+		if (mFlyPositionListener != null)
+			mFlyPositionListener.onFlyPositionUpdate(mFlyPosX, mFlyPosY);
 	}
 
 }
