@@ -216,10 +216,10 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		welcomeText.setText("Welcome " + mController.mPlayerName);
 
 		playerNameHeaderLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-		playerNameHeaderLabel.setText("Player name");
+		playerNameHeaderLabel.setText("Score board");
 
 		playerScoreHeaderLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-		playerScoreHeaderLabel.setText("score");
+		playerScoreHeaderLabel.setText("");
 
 		javax.swing.GroupLayout scoreHeaderLayout = new javax.swing.GroupLayout(scoreHeader);
 		scoreHeader.setLayout(scoreHeaderLayout);
