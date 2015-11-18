@@ -226,7 +226,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		scoreHeaderLayout
 				.setHorizontalGroup(scoreHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(scoreHeaderLayout.createSequentialGroup().addContainerGap()
-								.addComponent(playerNameHeaderLabel).addGap(91, 91, 91)
+								.addComponent(playerNameHeaderLabel).addGap(80, 80, 80)
 								.addComponent(playerScoreHeaderLabel).addContainerGap(187, Short.MAX_VALUE)));
 		scoreHeaderLayout.setVerticalGroup(
 				scoreHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
