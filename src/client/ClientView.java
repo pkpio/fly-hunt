@@ -86,37 +86,21 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		connectButton = new JButton("PLAY>>");
 		connectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// 2. -TODO- Collect playerName
+				// Collect playerName
 				String name = playerNameTextField.getText();
-				if (name.length() != 0) {
+				if (name.length() != 0)
 					try {
-						// 3. -TODO- login
 						mController.login(name);
-						// 5. Run the game. Look for more functions in Client
-						// controller
 						startGame();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
-
-				}
-
 			}
 		});
 		playAreaPanel.add(connectButton);
 		gameFrame.getContentPane().setLayout(groupLayout);
 		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gameFrame.setVisible(true);
-
-		// 4. Subscribe for Fly position & score updates
-		mController.setFlyPositionUpdateListener(this);
-		mController.setPlayerPointsUpdateListener(this);
-
-		// Note : View doesn't have access to server stubs and doesn't maintain
-		// any
-		// game state info except those required for UI display
-
 	}
 
 	protected void startGame() {
@@ -161,7 +145,6 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 				try {
 					mController.huntFly();
 				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -183,6 +166,13 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 
 		gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		playAreaPanel.setLayout(null);
+
+		// Subscribe for Fly position & score updates
+		mController.setFlyPositionUpdateListener(this);
+		mController.setPlayerPointsUpdateListener(this);
+
+		// Notify controller that all set and ready to go
+		mController.startGame();
 	}
 
 	@Override
