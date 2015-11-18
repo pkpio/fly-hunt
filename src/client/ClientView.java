@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
@@ -16,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,6 +41,7 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 	private JLabel playerNameLabel;
 	private JButton connectButton;
 	private JTextField playerNameTextField;
+	private WindowAdapter windowAdapter;
 
 	/**
 	 * Creates an instance of the Client view.
@@ -97,6 +100,9 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 					}
 			}
 		});
+		
+	    gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	   
 		playAreaPanel.add(connectButton);
 		gameFrame.getContentPane().setLayout(groupLayout);
 		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -155,14 +161,32 @@ public class ClientView implements Listeners.IFlyPositionUpdate, Listeners.IPlay
 		gameFrame.getContentPane().setLayout(groupLayout);
 		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gameFrame.setVisible(true);
-		gameFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
+		gameFrame.addWindowListener(new WindowAdapter() {
+	        // WINDOW_CLOSING event handler
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	            super.windowClosing(e);
+	            // You can still stop closing if you want to
+	            int res = JOptionPane.showConfirmDialog(gameFrame, "Are you sure you want to close?", "Close?", JOptionPane.YES_NO_OPTION);
+	            if ( res == 0 ) {
+	                try {
+						mController.logOut();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	                gameFrame.setVisible(false);
+	            	gameFrame.dispose();
+	            	System.exit(0);
+	            }
+	        }
 
-				gameFrame.setVisible(false);
-				gameFrame.dispose();
-			}
-		});
+	        // WINDOW_CLOSED event handler
+	        @Override
+	        public void windowClosed(WindowEvent e) {
+	        	 super.windowClosed(e);
+	        }
+	    });
 
 		gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		playAreaPanel.setLayout(null);

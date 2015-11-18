@@ -17,7 +17,7 @@ import common.IGameServer;
  */
 public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	private static final long serialVersionUID = 3982440795885854423L;
-	
+
 	IGameServer mServer;
 	String mPlayerName;
 	int mFlyPosX;
@@ -86,6 +86,17 @@ public class ClientCtrl extends UnicastRemoteObject implements IGameClient {
 	public void login(String playerName) throws RemoteException {
 		this.mPlayerName = playerName;
 		mServer.login(playerName, this);
+	}
+
+	/**
+	 * Logout player.
+	 * 
+	 * @param none
+	 *            Player name. Will be persistent inside the controller.
+	 * @throws RemoteException
+	 */
+	public void logOut() throws RemoteException {
+		mServer.logout(this.mPlayerName);
 	}
 
 	/**
